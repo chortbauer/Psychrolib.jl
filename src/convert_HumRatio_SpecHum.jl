@@ -42,7 +42,7 @@ end
         ASHRAE Handbook - Fundamentals (2017) ch. 1 eqn 9b (solved for humidity ratio)
 """
 function GetHumRatioFromSpecificHum(SpecificHum::Real)
-    if SpecificHum < 0.0 or SpecificHum >= 1.0
+    if SpecificHum < 0.0 || SpecificHum >= 1.0
         ArgumentError("Specific humidity is outside range [0, 1)")
     end
 

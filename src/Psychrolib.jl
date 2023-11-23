@@ -7,5 +7,6 @@ include("convert_DewPoint_RelHum_VaporPressure.jl")
 include("convert_WetBulb_DewPoint_RelHum_HumRatio.jl")
 include("convert_HumRatio_VapPressure.jl")
 include("convert_HumRatio_SpecHum.jl")
+include("dryAirCalculatioins.jl")
 
 end
