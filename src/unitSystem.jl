@@ -9,24 +9,34 @@
 # IP = UnitSystem.IP
 # SI = UnitSystem.SI
 
-@enum UnitSystem IP SI
+macro exported_enum(name, args...)
+    esc(quote
+        @enum($name, $(args...))
+        export $name
+        $([:(export $arg) for arg in args]...)
+    end)
+end
+
+@exported_enum UnitSystem IP SI
 
 PSYCHROLIB_UNITS = missing
 
-PSYCHROLIB_TOLERANCE = 1.0
+PSYCHROLIB_TOLERANCE = 1.0 # TODO this seems high to me
 # Tolerance of temperature calculations
 
-function SetUnitSystem(Units::UnitSystem)
-    """
+"""
+    SetUnitSystem(Units::UnitSystem)
+
     Set the system of units to use (SI or IP).
 
     Args:
         Units: string indicating the system of units chosen (SI or IP)
 
     Notes:
-        This function *HAS TO BE CALLED* before the library can be used
+        This function *HAS TO BE CALLED* before the library can be used.
+"""
+function SetUnitSystem(Units::UnitSystem)
 
-    """
     # TODO I think this check is redundent because of the type spec in the function declaration
     # if not isinstance(Units, UnitSystem):
     #     ArgumentError("The system of units has to be either SI or IP.")
@@ -43,19 +53,22 @@ function SetUnitSystem(Units::UnitSystem)
     return nothing
 end
 
-function GetUnitSystem()
-    """
-    Return system of units in use.
+"""
+    GetUnitSystem()
 
-    """
+    Return system of units in use.    
+"""
+function GetUnitSystem()
+
     return PSYCHROLIB_UNITS
 end
 
-function isIP()
-    """
-    Check whether the system in use is IP or SI.
+"""
+    isIP()
 
-    """
+    Check whether the system in use is IP or SI. 
+"""
+function isIP()
     if PSYCHROLIB_UNITS == IP
         return True
     elseif PSYCHROLIB_UNITS == SI

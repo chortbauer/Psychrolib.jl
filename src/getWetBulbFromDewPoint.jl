@@ -1,5 +1,6 @@
-function GetTWetBulbFromTDewPoint(TDryBulb::Real, TDewPoint::Real, Pressure::Real)
-    """
+"""
+    GetTWetBulbFromTDewPoint(TDryBulb::Real, TDewPoint::Real, Pressure::Real)
+
     Return wet-bulb temperature given dry-bulb temperature, dew-point temperature, and pressure.
 
     Args:
@@ -12,8 +13,8 @@ function GetTWetBulbFromTDewPoint(TDryBulb::Real, TDewPoint::Real, Pressure::Rea
 
     Reference:
         ASHRAE Handbook - Fundamentals (2017) ch. 1
-
-    """
+"""
+function GetTWetBulbFromTDewPoint(TDryBulb::Real, TDewPoint::Real, Pressure::Real)
     # if TDewPoint > TDryBulb:
     #     raise ValueError("Dew point temperature is above dry bulb temperature")
     # end
