@@ -1,0 +1,13 @@
+name = "Psychrolib"
+uuid = "ea1b890a-b10f-424b-91b4-b01f276f3237"
+authors = ["chortbauer"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
