@@ -1,13 +1,8 @@
-# Unit system to use.
-# class UnitSystem(Enum):
-#     """
-#     Private class not exposed used to set automatic enumeration values.
-#     """
-#     IP = auto()
-#     SI = auto()
+#######################################################################################################
+# Helper functions for unit system handling
+#######################################################################################################
 
-# IP = UnitSystem.IP
-# SI = UnitSystem.SI
+export SetUnitSystem
 
 macro exported_enum(name, args...)
     esc(quote
