@@ -9,5 +9,6 @@ include("convert_HumRatio_VapPressure.jl")
 include("convert_HumRatio_SpecHum.jl")
 include("dryAirCalculatioins.jl")
 include("saturatedAirCalculations.jl")
+include("moistAirCalculations.jl")
 
 end
