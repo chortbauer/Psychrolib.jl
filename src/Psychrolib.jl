@@ -1,5 +1,5 @@
 module Psychrolib
 
-# Write your package code here.
+include("getWetBulbFromDewPoint.jl")
 
 end
