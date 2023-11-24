@@ -2,7 +2,8 @@ using Psychrolib
 using Test
 
 @testset "Psychrolib.jl SI" begin
-    SetUnitSystem(SI)
+    # set the unit system to SI
+    SetUnitSystem(Psychrolib.SI)
 
     # Test of helper functions
     @test isapprox(293.15, GetTKelvinFromTCelsius(20), rtol=0.000001)

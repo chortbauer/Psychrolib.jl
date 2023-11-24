@@ -4,16 +4,7 @@
 
 export SetUnitSystem
 
-# create macro to export enum and all its values
-macro exported_enum(name, args...)
-    esc(quote
-        @enum($name, $(args...))
-        export $name
-        $([:(export $arg) for arg in args]...)
-    end)
-end
-
-@exported_enum UnitSystem IP SI
+@enum UnitSystem IP SI
 
 PSYCHROLIB_UNITS = missing
 
