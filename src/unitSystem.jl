@@ -36,14 +36,14 @@ function SetUnitSystem(Units::UnitSystem)
     # if not isinstance(Units, UnitSystem):
     #     ArgumentError("The system of units has to be either SI or IP.")
 
-    PSYCHROLIB_UNITS = Units
+    global PSYCHROLIB_UNITS = Units
 
     # Define tolerance on temperature calculations
     # The tolerance is the same in IP and SI
     if Units == IP
-        PSYCHROLIB_TOLERANCE = 0.001 * 9.0 / 5.0
+        global PSYCHROLIB_TOLERANCE = 0.001 * 9.0 / 5.0
     else
-        PSYCHROLIB_TOLERANCE = 0.001
+        global PSYCHROLIB_TOLERANCE = 0.001
     end
     return nothing
 end
@@ -64,11 +64,13 @@ end
     Check whether the system in use is IP or SI. 
 """
 function isIP()
-    if PSYCHROLIB_UNITS == IP
-        return True
-    elseif PSYCHROLIB_UNITS == SI
-        return False
-    else
+    if ismissing(PSYCHROLIB_UNITS)
         ArgumentError("The system of units has not been defined.")
+    elseif PSYCHROLIB_UNITS == IP
+        return true
+    elseif PSYCHROLIB_UNITS == SI
+        return false
+    else
+        ArgumentError("Unit system not recognised") # TODO not shure if needed
     end
 end

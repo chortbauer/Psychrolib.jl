@@ -2,6 +2,8 @@
 # Conversions from wet-bulb temperature, dew-point temperature, or relative humidity to humidity ratio
 #######################################################################################################
 
+# using Roots
+
 export GetTWetBulbFromHumRatio, GetHumRatioFromTWetBulb, GetHumRatioFromRelHum, GetRelHumFromHumRatio, GetHumRatioFromTDewPoint, GetTDewPointFromHumRatio
 
 """
@@ -25,6 +27,7 @@ function GetTWetBulbFromHumRatio(TDryBulb::Real, HumRatio::Real, Pressure::Real)
         ArgumentError("Humidity ratio cannot be negative")
     end
 
+
     BoundedHumRatio = max(HumRatio, MIN_HUM_RATIO)
 
     TDewPoint = GetTDewPointFromHumRatio(TDryBulb, BoundedHumRatio, Pressure)
@@ -36,7 +39,7 @@ function GetTWetBulbFromHumRatio(TDryBulb::Real, HumRatio::Real, Pressure::Real)
 
     index = 1
     # Bisection loop
-    while ((TWetBulbSup - TWetBulbInf) > PSYCHROLIB_TOLERANCE)
+    while (TWetBulbSup - TWetBulbInf > PSYCHROLIB_TOLERANCE)
 
         # Compute humidity ratio at temperature Tstar
         Wstar = GetHumRatioFromTWetBulb(TDryBulb, TWetBulb, Pressure)
@@ -58,6 +61,12 @@ function GetTWetBulbFromHumRatio(TDryBulb::Real, HumRatio::Real, Pressure::Real)
         index = index + 1
     end
     return TWetBulb
+
+
+    # HACK used Roots Package
+    # TODO respect tolerance
+    # fun(TWetBulb) = HumRatio - GetHumRatioFromTWetBulb(TDryBulb, TWetBulb, Pressure)
+    # find_zero(fun, TDryBulb)
 end
 
 """

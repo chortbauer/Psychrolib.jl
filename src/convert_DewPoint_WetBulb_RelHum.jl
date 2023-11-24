@@ -25,7 +25,7 @@ function GetTWetBulbFromTDewPoint(TDryBulb::Real, TDewPoint::Real, Pressure::Rea
         ArgumentError("Dew point temperature is above dry bulb temperature")
     end
     HumRatio = GetHumRatioFromTDewPoint(TDewPoint, Pressure)
-    TWetBulb = GetTWetBulbFromHumRatio(TDryBulb, HumRatio, Pressure)
+    GetTWetBulbFromHumRatio(TDryBulb, HumRatio, Pressure)
 end
 
 """
@@ -50,7 +50,7 @@ function GetTWetBulbFromRelHum(TDryBulb::Real, RelHum::Real, Pressure::Real)
         ArgumentError("Relative humidity is outside range [0, 1]")
     end
     HumRatio = GetHumRatioFromRelHum(TDryBulb, RelHum, Pressure)
-    TWetBulb = GetTWetBulbFromHumRatio(TDryBulb, HumRatio, Pressure)
+    GetTWetBulbFromHumRatio(TDryBulb, HumRatio, Pressure)
 end
 
 """
@@ -75,7 +75,7 @@ function GetRelHumFromTDewPoint(TDryBulb::Real, TDewPoint::Real)
 
     VapPres = GetSatVapPres(TDewPoint)
     SatVapPres = GetSatVapPres(TDryBulb)
-    RelHum = VapPres / SatVapPres
+    VapPres / SatVapPres
 end
 
 """
@@ -99,7 +99,7 @@ function GetRelHumFromTWetBulb(TDryBulb::Real, TWetBulb::Real, Pressure::Real)
         ArgumentError("Wet bulb temperature is above dry bulb temperature")
     end
     HumRatio = GetHumRatioFromTWetBulb(TDryBulb, TWetBulb, Pressure)
-    RelHum = GetRelHumFromHumRatio(TDryBulb, HumRatio, Pressure)
+    GetRelHumFromHumRatio(TDryBulb, HumRatio, Pressure)
 end
 
 """
@@ -123,7 +123,7 @@ function GetTDewPointFromRelHum(TDryBulb::Real, RelHum::Real)
     end
 
     VapPres = GetVapPresFromRelHum(TDryBulb, RelHum)
-    TDewPoint = GetTDewPointFromVapPres(TDryBulb, VapPres)
+    GetTDewPointFromVapPres(TDryBulb, VapPres)
 end
 
 """
@@ -147,5 +147,5 @@ function GetTDewPointFromTWetBulb(TDryBulb::Real, TWetBulb::Real, Pressure::Real
         ArgumentError("Wet bulb temperature is above dry bulb temperature")
     end
     HumRatio = GetHumRatioFromTWetBulb(TDryBulb, TWetBulb, Pressure)
-    TDewPoint = GetTDewPointFromHumRatio(TDryBulb, HumRatio, Pressure)
+    GetTDewPointFromHumRatio(TDryBulb, HumRatio, Pressure)
 end

@@ -2,7 +2,9 @@
 # Conversions between dew point, or relative humidity and vapor pressure
 #######################################################################################################
 
-export GetVapPresFromRelHum, GetRelHumFromVapPres, GetTDewPointFromVapPres
+# using Roots
+
+export GetVapPresFromRelHum, GetRelHumFromVapPres, GetTDewPointFromVapPres, GetVapPresFromTDewPoint
 
 """
     GetVapPresFromRelHum(TDryBulb::Real, RelHum::Real)
@@ -69,20 +71,16 @@ function dLnPws_(TDryBulb::Real)
     if isIP()
         T = GetTRankineFromTFahrenheit(TDryBulb)
         if TDryBulb <= TRIPLE_POINT_WATER_IP
-            dLnPws = 1.0214165E+04 / ^(T, 2) - 5.3765794E-03 + 2 * 1.9202377E-07 * T \
-                                                               +3 * 3.5575832E-10 * ^(T, 2) - 4 * 9.0344688E-14 * ^(T, 3) + 4.1635019 / T
+            dLnPws = 1.0214165E+04 / ^(T, 2) - 5.3765794E-03 + 2 * 1.9202377E-07 * T +3 * 3.5575832E-10 * ^(T, 2) - 4 * 9.0344688E-14 * ^(T, 3) + 4.1635019 / T
         else
-            dLnPws = 1.0440397E+04 / ^(T, 2) - 2.7022355E-02 + 2 * 1.2890360E-05 * T \
-                                                               -3 * 2.4780681E-09 * ^(T, 2) + 6.5459673 / T
+            dLnPws = 1.0440397E+04 / ^(T, 2) - 2.7022355E-02 + 2 * 1.2890360E-05 * T -3 * 2.4780681E-09 * ^(T, 2) + 6.5459673 / T
         end
     else
         T = GetTKelvinFromTCelsius(TDryBulb)
         if TDryBulb <= TRIPLE_POINT_WATER_SI
-            dLnPws = 5.6745359E+03 / ^(T, 2) - 9.677843E-03 + 2 * 6.2215701E-07 * T \
-                                                              +3 * 2.0747825E-09 * ^(T, 2) - 4 * 9.484024E-13 * ^(T, 3) + 4.1635019 / T
+            dLnPws = 5.6745359E+03 / ^(T, 2) - 9.677843E-03 + 2 * 6.2215701E-07 * T +3 * 2.0747825E-09 * ^(T, 2) - 4 * 9.484024E-13 * ^(T, 3) + 4.1635019 / T
         else
-            dLnPws = 5.8002206E+03 / ^(T, 2) - 4.8640239E-02 + 2 * 4.1764768E-05 * T \
-                                                               -3 * 1.4452093E-08 * ^(T, 2) + 6.5459673 / T
+            dLnPws = 5.8002206E+03 / ^(T, 2) - 4.8640239E-02 + 2 * 4.1764768E-05 * T -3 * 1.4452093E-08 * ^(T, 2) + 6.5459673 / T
         end
     end
 
@@ -123,9 +121,11 @@ function GetTDewPointFromVapPres(TDryBulb::Real, VapPres::Real)
     end
 
     # Validity check -- bounds outside which a solution cannot be found
-    if VapPres < GetSatVapPres(BOUNDS[0]) || VapPres > GetSatVapPres(BOUNDS[1])
+    if VapPres < GetSatVapPres(BOUNDS[1]) || VapPres > GetSatVapPres(BOUNDS[2])
         ArgumentError("Partial pressure of water vapor is outside range of validity of equations")
     end
+
+
 
     # We use NR to approximate the solution.
     # First guess
@@ -143,8 +143,8 @@ function GetTDewPointFromVapPres(TDryBulb::Real, VapPres::Real)
 
         # New estimate, bounded by the search domain defined above
         TDewPoint = TDewPoint_iter - (lnVP_iter - lnVP) / d_lnVP
-        TDewPoint = max(TDewPoint, BOUNDS[0])
-        TDewPoint = min(TDewPoint, BOUNDS[1])
+        TDewPoint = max(TDewPoint, BOUNDS[1])
+        TDewPoint = min(TDewPoint, BOUNDS[2])
 
         if ((abs(TDewPoint - TDewPoint_iter) <= PSYCHROLIB_TOLERANCE))
             break
@@ -158,6 +158,10 @@ function GetTDewPointFromVapPres(TDryBulb::Real, VapPres::Real)
     end
 
     TDewPoint = min(TDewPoint, TDryBulb)
+
+    # HACK using Roots Package instead of direct NR
+    # fun(TDewPoint) = VapPres - GetSatVapPres(TDewPoint)
+    # find_zero(fun, TDryBulb)
 end
 
 
