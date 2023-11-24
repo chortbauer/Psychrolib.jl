@@ -12,5 +12,6 @@ include("dryAirCalculatioins.jl")
 include("saturatedAirCalculations.jl")
 include("moistAirCalculations.jl")
 include("standardAtmosphere.jl")
+include("allPsychroValues.jl")
 
 end
