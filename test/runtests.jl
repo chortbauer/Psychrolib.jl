@@ -145,6 +145,77 @@ using Test
         @test isapprox(GetTDryBulbFromMoistAirVolumeAndHumRatio(0.940855374352943, 0.02, 95461), 30, rtol = 0.0003)
     end
 
+    @testset "Standard atmosphere" begin
+        ###############################################################################
+    # Test standard atmosphere
+    ###############################################################################
+
+    # The functions are tested against Table 1 of ch. 1 of the 2017 ASHRAE Handbook - Fundamentals
+    @test isapprox(GetStandardAtmPressure( -500), 107478, atol = 1)
+    @test isapprox(GetStandardAtmPressure(    0), 101325, atol = 1)
+    @test isapprox(GetStandardAtmPressure(  500),  95461, atol = 1)
+    @test isapprox(GetStandardAtmPressure( 1000),  89875, atol = 1)
+    @test isapprox(GetStandardAtmPressure( 4000),  61640, atol = 1)
+    @test isapprox(GetStandardAtmPressure(10000),  26436, atol = 1)
+
+    @test isapprox(GetStandardAtmTemperature( -500),  18.2, atol = 0.1)
+    @test isapprox(GetStandardAtmTemperature(    0),  15.0, atol = 0.1)
+    @test isapprox(GetStandardAtmTemperature(  500),  11.8, atol = 0.1)
+    @test isapprox(GetStandardAtmTemperature( 1000),   8.5, atol = 0.1)
+    @test isapprox(GetStandardAtmTemperature( 4000), -11.0, atol = 0.1)
+    @test isapprox(GetStandardAtmTemperature(10000), -50.0, atol = 0.1)
+    end
+
+    @testset "sea level pressure conversions" begin
+        ###############################################################################
+        # Test sea level pressure conversions
+        ###############################################################################
+
+        # Test sea level pressure calculation against https://keisan.casio.com/exec/system/1224575267
+        SeaLevelPressure = GetSeaLevelPressure(101226.5, 105, 17.19)
+        @test isapprox(SeaLevelPressure, 102484.0, atol = 1)
+        @test isapprox(GetStationPressure(SeaLevelPressure, 105, 17.19), 101226.5, atol = 1)
+    end
+
+    @testset "conversion between humidity types" begin
+        ###############################################################################
+        # Test conversion between humidity types
+        ###############################################################################
+
+        @test isapprox(GetSpecificHumFromHumRatio(0.006), 0.00596421471, rtol = 0.01)
+        @test isapprox(GetHumRatioFromSpecificHum(0.00596421471), 0.006, rtol = 0.01)
+        
+    end
+
+#     @testset "" begin
+#         ###############################################################################
+# # Test against Example 1 of ch. 1 of the 2017 ASHRAE Handbook - Fundamentals
+# ###############################################################################
+
+#     # This is example 1. The values are provided in the text of the Handbook
+#     HumRatio, TDewPoint, RelHum, VapPres, MoistAirEnthalpy, MoistAirVolume, DegreeOfSaturation = \
+#     CalcPsychrometricsFromTWetBulb(40, 20, 101325)
+#     assert HumRatio, 0.0065, atol = 0.0001)
+#     assert TDewPoint, 7, atol = 0.5)             # not great agreement
+#     assert RelHum, 0.14, atol = 0.01)
+#     assert MoistAirEnthalpy, 56700, atol = 100)
+#     assert MoistAirVolume, 0.896, rtol = 0.01)
+
+#     # Reverse calculation: recalculate wet bulb temperature from dew point temperature
+#     HumRatio, TWetBulb, RelHum, VapPres, MoistAirEnthalpy, MoistAirVolume, DegreeOfSaturation = \
+#         psy.CalcPsychrometricsFromTDewPoint(40, TDewPoint, 101325)
+#     assert TWetBulb, 20, atol = 0.1)
+
+#     # Reverse calculation: recalculate wet bulb temperature from relative humidity
+#     HumRatio, TWetBulb, TDewPoint, VapPres, MoistAirEnthalpy, MoistAirVolume, DegreeOfSaturation = \
+#         psy.CalcPsychrometricsFromRelHum(40, RelHum, 101325)
+#     assert TWetBulb, 20, atol = 0.1)
+#     end
+
+    @testset "" begin
+        
+    end
+
     @testset "" begin
         
     end

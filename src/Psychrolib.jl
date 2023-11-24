@@ -11,5 +11,6 @@ include("convert_HumRatio_SpecHum.jl")
 include("dryAirCalculatioins.jl")
 include("saturatedAirCalculations.jl")
 include("moistAirCalculations.jl")
+include("standardAtmosphere.jl")
 
 end
