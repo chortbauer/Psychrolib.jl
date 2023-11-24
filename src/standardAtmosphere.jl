@@ -89,9 +89,8 @@ function GetSeaLevelPressure(StationPressure::Real, Altitude::Real, TDryBulb::Re
         H = 287.055 * GetTKelvinFromTCelsius(TColumn) / 9.807
 
         # Calculate the sea level pressure
-        SeaLevelPressure = StationPressure * exp(Altitude / H)
     end
-    return SeaLevelPressure
+    StationPressure * exp(Altitude / H)
 end
 
 """
