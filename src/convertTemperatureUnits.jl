@@ -2,8 +2,7 @@
 # Conversion between temperature units
 #######################################################################################################
 
-export GetTRankineFromTFahrenheit,
-    GetTFahrenheitFromTRankine, GetTKelvinFromTCelsius, GetTCelsiusFromTKelvin
+export GetTRankineFromTFahrenheit, GetTFahrenheitFromTRankine, GetTKelvinFromTCelsius, GetTCelsiusFromTKelvin
 
 """
     GetTRankineFromTFahrenheit(TFahrenheit::Real)

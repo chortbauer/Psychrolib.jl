@@ -111,9 +111,9 @@ function GetTDryBulbFromEnthalpyAndHumRatio(MoistAirEnthalpy::Real, HumRatio::Re
     BoundedHumRatio = max(HumRatio, MIN_HUM_RATIO)
 
     if isIP()
-        TDryBulb  = (MoistAirEnthalpy - 1061.0 * BoundedHumRatio) / (0.240 + 0.444 * BoundedHumRatio)
+        TDryBulb = (MoistAirEnthalpy - 1061.0 * BoundedHumRatio) / (0.240 + 0.444 * BoundedHumRatio)
     else
-        TDryBulb  = (MoistAirEnthalpy / 1000.0 - 2501.0 * BoundedHumRatio) / (1.006 + 1.86 * BoundedHumRatio)
+        TDryBulb = (MoistAirEnthalpy / 1000.0 - 2501.0 * BoundedHumRatio) / (1.006 + 1.86 * BoundedHumRatio)
     end
     return TDryBulb
 end
@@ -139,11 +139,11 @@ end
 """
 function GetHumRatioFromEnthalpyAndTDryBulb(MoistAirEnthalpy::Real, TDryBulb::Real)
     if isIP()
-        HumRatio  = (MoistAirEnthalpy - 0.240 * TDryBulb) / (1061.0 + 0.444 * TDryBulb)
+        HumRatio = (MoistAirEnthalpy - 0.240 * TDryBulb) / (1061.0 + 0.444 * TDryBulb)
     else
-        HumRatio  = (MoistAirEnthalpy / 1000.0 - 1.006 * TDryBulb) / (2501.0 + 1.86 * TDryBulb)
+        HumRatio = (MoistAirEnthalpy / 1000.0 - 1.006 * TDryBulb) / (2501.0 + 1.86 * TDryBulb)
     end
 
     # Validity check.
-    return max(HumRatio, MIN_HUM_RATIO)
+    max(HumRatio, MIN_HUM_RATIO)
 end

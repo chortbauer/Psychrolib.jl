@@ -32,7 +32,7 @@ function CalcPsychrometricsFromTWetBulb(TDryBulb::Real, TWetBulb::Real, Pressure
     MoistAirEnthalpy = GetMoistAirEnthalpy(TDryBulb, HumRatio)
     MoistAirVolume = GetMoistAirVolume(TDryBulb, HumRatio, Pressure)
     DegreeOfSaturation = GetDegreeOfSaturation(TDryBulb, HumRatio, Pressure)
-    
+
     HumRatio, TDewPoint, RelHum, VapPres, MoistAirEnthalpy, MoistAirVolume, DegreeOfSaturation
 end
 
@@ -96,5 +96,6 @@ function CalcPsychrometricsFromRelHum(TDryBulb::Real, RelHum::Real, Pressure::Re
     MoistAirEnthalpy = GetMoistAirEnthalpy(TDryBulb, HumRatio)
     MoistAirVolume = GetMoistAirVolume(TDryBulb, HumRatio, Pressure)
     DegreeOfSaturation = GetDegreeOfSaturation(TDryBulb, HumRatio, Pressure)
+
     HumRatio, TWetBulb, TDewPoint, VapPres, MoistAirEnthalpy, MoistAirVolume, DegreeOfSaturation
 end

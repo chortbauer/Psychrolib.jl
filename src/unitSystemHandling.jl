@@ -4,6 +4,7 @@
 
 export SetUnitSystem
 
+# create macro to export enum and all its values
 macro exported_enum(name, args...)
     esc(quote
         @enum($name, $(args...))
@@ -16,8 +17,8 @@ end
 
 PSYCHROLIB_UNITS = missing
 
-PSYCHROLIB_TOLERANCE = 1.0 # TODO this seems high to me
 # Tolerance of temperature calculations
+PSYCHROLIB_TOLERANCE = 1.0
 
 """
     SetUnitSystem(Units::UnitSystem)
@@ -31,10 +32,6 @@ PSYCHROLIB_TOLERANCE = 1.0 # TODO this seems high to me
         This function *HAS TO BE CALLED* before the library can be used.
 """
 function SetUnitSystem(Units::UnitSystem)
-
-    # TODO I think this check is redundent because of the type spec in the function declaration
-    # if not isinstance(Units, UnitSystem):
-    #     ArgumentError("The system of units has to be either SI or IP.")
 
     global PSYCHROLIB_UNITS = Units
 
@@ -54,8 +51,7 @@ end
     Return system of units in use.    
 """
 function GetUnitSystem()
-
-    return PSYCHROLIB_UNITS
+    PSYCHROLIB_UNITS
 end
 
 """
@@ -65,12 +61,12 @@ end
 """
 function isIP()
     if ismissing(PSYCHROLIB_UNITS)
-        ArgumentError("The system of units has not been defined.")
+        ArgumentError("Unit system has not been set. Use SetUnitSystem() with IP / SI")
     elseif PSYCHROLIB_UNITS == IP
         return true
     elseif PSYCHROLIB_UNITS == SI
         return false
     else
-        ArgumentError("Unit system not recognised") # TODO not shure if needed
+        ArgumentError("Invalid Unit system: $PSYCHROLIB_UNITS")
     end
 end

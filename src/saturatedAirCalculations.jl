@@ -35,7 +35,7 @@ function GetSatVapPres(TDryBulb::Real)
         if (TDryBulb <= TRIPLE_POINT_WATER_IP)
             LnPws = (-1.0214165E+04 / T - 4.8932428 - 5.3765794E-03 * T + 1.9202377E-07 * T^2 + 3.5575832E-10 * ^(T, 3) - 9.0344688E-14 * ^(T, 4) + 4.1635019 * log(T))
         else
-            LnPws = -1.0440397E+04 / T - 1.1294650E+01 - 2.7022355E-02* T + 1.2890360E-05 * T^2 - 2.4780681E-09 * ^(T, 3) + 6.5459673 * log(T)
+            LnPws = -1.0440397E+04 / T - 1.1294650E+01 - 2.7022355E-02 * T + 1.2890360E-05 * T^2 - 2.4780681E-09 * ^(T, 3) + 6.5459673 * log(T)
         end
     else
         if (TDryBulb < -100 || TDryBulb > 200)
@@ -51,7 +51,7 @@ function GetSatVapPres(TDryBulb::Real)
         end
     end
 
-    SatVapPres = exp(LnPws)
+    exp(LnPws)
 end
 
 """

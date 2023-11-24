@@ -2,8 +2,6 @@
 # Conversions from wet-bulb temperature, dew-point temperature, or relative humidity to humidity ratio
 #######################################################################################################
 
-# using Roots
-
 export GetTWetBulbFromHumRatio, GetHumRatioFromTWetBulb, GetHumRatioFromRelHum, GetRelHumFromHumRatio, GetHumRatioFromTDewPoint, GetTDewPointFromHumRatio
 
 """
@@ -61,12 +59,6 @@ function GetTWetBulbFromHumRatio(TDryBulb::Real, HumRatio::Real, Pressure::Real)
         index = index + 1
     end
     return TWetBulb
-
-
-    # HACK used Roots Package
-    # TODO respect tolerance
-    # fun(TWetBulb) = HumRatio - GetHumRatioFromTWetBulb(TDryBulb, TWetBulb, Pressure)
-    # find_zero(fun, TDryBulb)
 end
 
 """
@@ -93,17 +85,17 @@ function GetHumRatioFromTWetBulb(TDryBulb::Real, TWetBulb::Real, Pressure::Real)
     Wsstar = GetSatHumRatio(TWetBulb, Pressure)
 
     if isIP()
-       if TWetBulb >= FREEZING_POINT_WATER_IP
-           HumRatio = ((1093 - 0.556 * TWetBulb) * Wsstar - 0.240 * (TDryBulb - TWetBulb)) / (1093 + 0.444 * TDryBulb - TWetBulb)
-       else
-           HumRatio = ((1220 - 0.04 * TWetBulb) * Wsstar - 0.240 * (TDryBulb - TWetBulb)) / (1220 + 0.444 * TDryBulb - 0.48*TWetBulb)
-       end
+        if TWetBulb >= FREEZING_POINT_WATER_IP
+            HumRatio = ((1093 - 0.556 * TWetBulb) * Wsstar - 0.240 * (TDryBulb - TWetBulb)) / (1093 + 0.444 * TDryBulb - TWetBulb)
+        else
+            HumRatio = ((1220 - 0.04 * TWetBulb) * Wsstar - 0.240 * (TDryBulb - TWetBulb)) / (1220 + 0.444 * TDryBulb - 0.48 * TWetBulb)
+        end
     else
-       if TWetBulb >= FREEZING_POINT_WATER_SI
-           HumRatio = ((2501. - 2.326 * TWetBulb) * Wsstar - 1.006 * (TDryBulb - TWetBulb)) / (2501. + 1.86 * TDryBulb - 4.186 * TWetBulb)
-       else
-           HumRatio = ((2830. - 0.24 * TWetBulb) * Wsstar - 1.006 * (TDryBulb - TWetBulb)) / (2830. + 1.86 * TDryBulb - 2.1 * TWetBulb)
-       end
+        if TWetBulb >= FREEZING_POINT_WATER_SI
+            HumRatio = ((2501.0 - 2.326 * TWetBulb) * Wsstar - 1.006 * (TDryBulb - TWetBulb)) / (2501.0 + 1.86 * TDryBulb - 4.186 * TWetBulb)
+        else
+            HumRatio = ((2830.0 - 0.24 * TWetBulb) * Wsstar - 1.006 * (TDryBulb - TWetBulb)) / (2830.0 + 1.86 * TDryBulb - 2.1 * TWetBulb)
+        end
     end
 
     # Validity check.

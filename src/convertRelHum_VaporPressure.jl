@@ -2,8 +2,6 @@
 # Conversions between dew point, or relative humidity and vapor pressure
 #######################################################################################################
 
-# using Roots
-
 export GetVapPresFromRelHum, GetRelHumFromVapPres, GetTDewPointFromVapPres, GetVapPresFromTDewPoint
 
 """
@@ -125,8 +123,6 @@ function GetTDewPointFromVapPres(TDryBulb::Real, VapPres::Real)
         ArgumentError("Partial pressure of water vapor is outside range of validity of equations")
     end
 
-
-
     # We use NR to approximate the solution.
     # First guess
     TDewPoint = TDryBulb        # Calculated value of dew point temperatures, solved for iteratively
@@ -158,10 +154,6 @@ function GetTDewPointFromVapPres(TDryBulb::Real, VapPres::Real)
     end
 
     TDewPoint = min(TDewPoint, TDryBulb)
-
-    # HACK using Roots Package instead of direct NR
-    # fun(TDewPoint) = VapPres - GetSatVapPres(TDewPoint)
-    # find_zero(fun, TDryBulb)
 end
 
 
