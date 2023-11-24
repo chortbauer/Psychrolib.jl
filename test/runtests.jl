@@ -118,6 +118,37 @@ using Test
         @test isapprox(GetTWetBulbFromHumRatio(-5,1e-09,95461), GetTWetBulbFromHumRatio(-5,1e-07,95461))
     end
 
+    @testset "Dry air calculations" begin
+        ###############################################################################
+        # Dry air calculations
+        ###############################################################################
+
+        # Values are compared against values found in Table 2 of ch. 1 of the ASHRAE Handbook - Fundamentals
+        # Note: the accuracy of the formula is not better than 0.1%, apparently
+        @test isapprox(GetDryAirEnthalpy(25), 25148, rtol = 0.0003)
+        @test isapprox(GetDryAirVolume(25, 101325), 0.8443, rtol = 0.001)
+        @test isapprox(GetDryAirDensity(25, 101325), 1/0.8443, rtol = 0.001)
+        @test isapprox(GetTDryBulbFromEnthalpyAndHumRatio(81316, 0.02), 30, atol = 0.001)
+        @test isapprox(GetHumRatioFromEnthalpyAndTDryBulb(81316, 30), 0.02, rtol = 0.001)
+    end
+
+    @testset "Moist air calculations" begin
+        ###############################################################################
+        # Moist air calculations
+        ###############################################################################
+
+        # Values are compared against values calculated with Excel
+        @test isapprox(GetMoistAirEnthalpy(30, 0.02), 81316, rtol = 0.0003)
+        @test isapprox(GetMoistAirVolume(30, 0.02, 95461), 0.940855374352943, rtol = 0.0003)
+        @test isapprox(GetMoistAirDensity(30, 0.02, 95461), 1.08411986348219, rtol = 0.0003)
+
+        @test isapprox(GetTDryBulbFromMoistAirVolumeAndHumRatio(0.940855374352943, 0.02, 95461), 30, rtol = 0.0003)
+    end
+
+    @testset "" begin
+        
+    end
+
 end
 
 
